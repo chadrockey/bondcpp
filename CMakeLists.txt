@@ -8,14 +8,14 @@ include_directories(SYSTEM ${BOOST_INCLUDE_DIRS})
 include_directories(include ${catkin_INCLUDE_DIRS})
 
 if(WIN32)
-  set(UUID_LIB "Rpcrt4")
+  set(uuid_LIBRARIES "Rpcrt4")
 else()
-  set(UUID_LIB "uuid")
+  find_package(uuid REQUIRED)
 endif()
 
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES ${PROJECT_NAME} ${UUID_LIB}
+  LIBRARIES ${PROJECT_NAME} ${uuid_LIBRARIES}
   CATKIN_DEPENDS bond roscpp smclib
   DEPENDS Boost
 )
@@ -25,7 +25,7 @@ add_library(${PROJECT_NAME}
   src/bond.cpp
   src/BondSM_sm.cpp
 )
-target_link_libraries(${PROJECT_NAME} ${UUID_LIB} ${catkin_LIBRARIES} ${BOOST_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${uuid_LIBRARIES} ${catkin_LIBRARIES} ${BOOST_LIBRARIES})
 
 if(catkin_EXPORTED_TARGETS)
   add_dependencies(${PROJECT_NAME} ${catkin_EXPORTED_TARGETS})
